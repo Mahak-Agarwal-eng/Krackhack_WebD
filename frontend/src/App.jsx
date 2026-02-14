@@ -417,6 +417,16 @@ import StudentCalendar from "./pages/student/StudentCalender";
 import StudentAttendance from './pages/student/StudentAttendance';
 import StudentNotifications from './pages/student/StudentNotification';
 import StudentResources from './pages/student/StudentResources.jsx';
+import FacultyDashboard from './pages/faculty/FacultyDashboard';
+import FacultyCourses from "./pages/faculty/FacultyCourses";
+import FacultyAttendance from "./pages/faculty/FacultyAttendance";
+import FacultyResources from "./pages/faculty/FacultyResources";
+import FacultyAnnouncements from "./pages/faculty/FacultyAnnouncements";
+import FacultyCalendar from "./pages/faculty/FacultyCalendar";
+import FacultyGrade from "./pages/faculty/FacultyGrade";
+import FacultyProfile from "./pages/faculty/FacultyProfile";
+import FacultyStudents from "./pages/faculty/FacultyStudents";
+
 
 function App() {
   return (
@@ -493,6 +503,95 @@ function App() {
           }
         />
 
+
+        {/* Faculty Routes */}
+
+<Route
+  path="/faculty/dashboard"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyDashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/faculty/courses"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyCourses />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/faculty/attendance"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyAttendance />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/faculty/resources"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyResources />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/faculty/announcements"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyAnnouncements />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/faculty/calendar"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyCalendar />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/faculty/grade"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyGrade />
+    </ProtectedRoute>
+  }
+/>
+
+<Route  
+  path="/faculty/profile"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>   
+      <FacultyProfile />
+    </ProtectedRoute>
+  }
+/>  
+<Route
+  path="/faculty/students"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <FacultyStudents />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/faculty/*"
+  element={
+    <ProtectedRoute allowedRoles={["FACULTY"]}>
+      <Navigate to="/faculty/dashboard" replace />
+    </ProtectedRoute>
+  }
+/>
 
         {/* Faculty Routes */}
         <Route
