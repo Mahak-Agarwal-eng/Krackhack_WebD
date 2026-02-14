@@ -137,11 +137,17 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 // Admin Pages
 import AdminAcademics from './pages/admin/AdminAcademics';
+import Academics from './pages/Academics';
 import AdminCourses from './pages/admin/AdminCourses';
 import AdminFaculty from './pages/admin/AdminFaculty';
 import AdminStudents from './pages/admin/AdminStudents';
 import AdminSemesters from './pages/admin/AdminSemesters';
 import AdminDashboardPart3 from './pages/admin/AdminDashBoardPart3';
+import StudentCourses from './pages/student/StudentCourses';
+import StudentCalendar from "./pages/student/StudentCalender";
+import StudentAttendance from './pages/student/StudentAttendance';
+import StudentNotifications from './pages/student/StudentNotification';
+import StudentResources from './pages/student/StudentResources.jsx';
 
 function App() {
   return (
@@ -161,6 +167,46 @@ function App() {
           }
         />
         <Route
+          path="/student/courses"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
+              <StudentCourses />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/calendar"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
+              <StudentCalendar />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/attendance"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
+              <StudentAttendance />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/notifications"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
+              <StudentNotifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/resources"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
+              <StudentResources />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/student/*"
           element={
             <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
@@ -174,6 +220,15 @@ function App() {
           path="/faculty/dashboard"
           element={
             <ProtectedRoute allowedRoles={['FACULTY', 'faculty']}>
+              <FacultyDashboard />
+            </ProtectedRoute>
+          }
+        />
+        {/* Faculty Routes */}
+        <Route
+          path="/Academics"
+          element={
+            <ProtectedRoute allowedRoles={['STUDENT', 'student']}>
               <FacultyDashboard />
             </ProtectedRoute>
           }
