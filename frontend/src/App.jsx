@@ -398,7 +398,7 @@ import Caravan from "./pages/Caravan";
 import UserManagement from "./pages/UserManagement";
 import Login from './pages/auth/Login';
 import StudentDashboard from './pages/student/StudentDashboard';
-import FacultyDashboard from './pages/faculty/FacultyDashboard';
+// import FacultyDashboard from './pages/faculty/FacultyDashboard';
 import AuthorityDashboard from './pages/authority/AuthorityDashboard';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
