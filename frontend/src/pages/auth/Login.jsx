@@ -1,323 +1,203 @@
-// // #frontend/src/pages/auth/Login.jsx
+
 // import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
-// import API from "../../services/api";
+// import supabase from "../../services/supabase";
 
-// const Login = () => {
+// export default function Login(){
+
 //   const navigate = useNavigate();
 
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [error, setError] = useState("");
-//   const [loading, setLoading] = useState(false);
+//   const [email,setEmail]=useState("");
+//   const [password,setPassword]=useState("");
+//   const [error,setError]=useState("");
 
-//   const handleLogin = async (e) => {
+//   const handleLogin = async (e)=>{
 //     e.preventDefault();
 //     setError("");
-//     setLoading(true);
 
-//     console.log('🔐 Login attempt:', email);
+//     const { data, error } = await supabase.auth.signInWithPassword({
+//       email,
+//       password,
+//     });
 
-//     try {
-//       const response = await API.post('/auth/login', {
-//         email,
-//         password,
-//       });
-      
-//       console.log('✅ Login response:', response.data);
-      
-//       const { access_token, refresh_token, profile } = response.data;
-
-//       if (!access_token || !profile) {
-//         throw new Error('Invalid response format');
-//       }
-
-//       // Store tokens
-//       localStorage.setItem("access_token", access_token);
-//       localStorage.setItem("refresh_token", refresh_token);
-      
-//       // Store user info
-//       localStorage.setItem("user_id", profile.id);
-//       localStorage.setItem("user_email", profile.email);
-//       localStorage.setItem("user_role", profile.role);
-
-//       console.log('💾 Stored in localStorage:', {
-//         token: !!localStorage.getItem('access_token'),
-//         role: localStorage.getItem('user_role'),
-//         email: localStorage.getItem('user_email')
-//       });
-
-//       // Navigate based on role
-//       const roleRoutes = {
-//         STUDENT: '/student/dashboard',
-//         student: '/student/dashboard',
-//         FACULTY: '/faculty/dashboard',
-//         faculty: '/faculty/dashboard',
-//         AUTHORITY: '/authority/dashboard',
-//         authority: '/authority/dashboard',
-//         ADMIN: '/admin/dashboard',
-//         admin: '/admin/dashboard',
-//       };
-
-//       const route = roleRoutes[profile.role] || '/student/dashboard';
-      
-//       console.log('🚀 Navigating to:', route);
-      
-//       // Small delay to ensure localStorage is set
-//       setTimeout(() => {
-//         navigate(route, { replace: true });
-//       }, 100);
-
-//     } catch (err) {
-//       console.error('❌ Login Error:', err);
-//       console.error('Error details:', err.response?.data);
-      
-//       const errorMessage = err.response?.data?.detail || 
-//                           err.message || 
-//                           'Login failed. Please try again.';
-//       setError(errorMessage);
-//     } finally {
-//       setLoading(false);
+//     if(error){
+//       setError(error.message);
+//       return;
 //     }
+
+//     // SAVE TOKEN FOR FASTAPI
+//     localStorage.setItem("access_token", data.session.access_token);
+
+//     // FETCH PROFILE ROLE
+//     const { data: profile } = await supabase
+//       .from("profiles")
+//       .select("role")
+//       .eq("id", data.user.id)
+//       .single();
+
+//     if(!profile){
+//       setError("Profile missing");
+//       return;
+//     }
+
+//     localStorage.setItem("user_role", profile.role.toUpperCase());
+
+//     console.log("ROLE SAVED:", profile.role);
+
+//     const routes={
+//       STUDENT:"/student/dashboard",
+//       FACULTY:"/faculty/dashboard",
+//       AUTHORITY:"/authority/dashboard",
+//       ADMIN:"/admin/dashboard"
+//     };
+
+//     navigate(routes[profile.role?.toUpperCase()] || "/student/dashboard");
 //   };
 
 //   return (
-//     <div className="flex min-h-screen items-center justify-center bg-blue-50">
-//       <form onSubmit={handleLogin} className="bg-white p-8 rounded-xl shadow w-96 space-y-4">
-//         <h1 className="text-xl font-bold text-blue-700 text-center">Login to AEGIS</h1>
+//     <div className="min-h-screen flex items-center justify-center bg-blue-50">
+//       <form
+//         onSubmit={handleLogin}
+//         className="bg-white shadow-lg rounded-xl p-8 w-96 space-y-4"
+//       >
+
+//         <h1 className="text-2xl font-bold text-blue-700 text-center">
+//           AEGIS Login
+//         </h1>
 
 //         {error && (
-//           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+//           <div className="bg-red-100 text-red-700 p-2 rounded text-sm">
 //             {error}
 //           </div>
 //         )}
 
 //         <input
 //           type="email"
-//           placeholder="Email (e.g., b24136@students.iitmandi.ac.in)"
-//           className="w-full border p-2 rounded"
+//           placeholder="Institute Email"
+//           className="w-full border p-3 rounded"
 //           value={email}
-//           onChange={(e) => setEmail(e.target.value)}
+//           onChange={e=>setEmail(e.target.value)}
 //           required
-//           disabled={loading}
 //         />
 
 //         <input
 //           type="password"
 //           placeholder="Password"
-//           className="w-full border p-2 rounded"
+//           className="w-full border p-3 rounded"
 //           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
+//           onChange={e=>setPassword(e.target.value)}
 //           required
-//           disabled={loading}
 //         />
 
-//         <button 
-//           type="submit"
-//           className="w-full bg-blue-700 text-white py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-800"
-//           disabled={loading}
-//         >
-//           {loading ? 'Signing in...' : 'Sign In'}
+//         <button className="w-full bg-blue-700 text-white py-3 rounded">
+//           Login
 //         </button>
 
-//         <p className="text-center text-xs text-gray-500">
-//           Only institute email addresses are allowed
-//         </p>
-
-        
 //       </form>
 //     </div>
 //   );
-// };
-
-// export default Login;
-// #frontend/src/pages/auth/Login.jsx
+// }
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../../services/api";
+import supabase from "../../services/supabase";
 
-const Login = () => {
+export default function Login(){
+
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [error,setError]=useState("");
 
-  const validateEmail = (email) => {
-    if (!email || !email.includes('@')) {
-      return 'Invalid email format';
-    }
-    
-    const domain = email.split('@')[1]?.toLowerCase();
-    if (!domain || !domain.endsWith('iitmandi.ac.in')) {
-      return 'Email must be from IIT Mandi domain (e.g., user@students.iitmandi.ac.in, user@faculty.iitmandi.ac.in)';
-    }
-    
-    return null; // Valid
-  };
-
-  const handleLogin = async (e) => {
+  const handleLogin = async (e)=>{
     e.preventDefault();
     setError("");
 
-    // Frontend email validation
-    const emailError = validateEmail(email);
-    if (emailError) {
-      setError(emailError);
+    // LOGIN WITH SUPABASE
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error){
+      setError(error.message);
       return;
     }
 
-    setLoading(true);
+    // SAVE TOKEN
+    localStorage.setItem("access_token", data.session.access_token);
 
-    try {
-      const response = await API.post('/auth/login', {
-        email: email.toLowerCase(),
-        password,
-      });
-      
-      console.log('✅ Login Success');
-      
-      const { access_token, refresh_token, profile } = response.data;
+    // GET PROFILE ROLE
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
 
-      if (!access_token || !profile) {
-        throw new Error('Invalid response format');
-      }
-
-      // Store tokens
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
-      localStorage.setItem("user_id", profile.id);
-      localStorage.setItem("user_email", profile.email);
-      localStorage.setItem("user_role", profile.role);
-
-      // Navigate based on role
-      const roleRoutes = {
-        STUDENT: '/student/dashboard',
-        student: '/student/dashboard',
-        FACULTY: '/faculty/dashboard',
-        faculty: '/faculty/dashboard',
-        AUTHORITY: '/authority/dashboard',
-        authority: '/authority/dashboard',
-        ADMIN: '/admin/dashboard',
-        admin: '/admin/dashboard',
-      };
-
-      const route = roleRoutes[profile.role] || '/student/dashboard';
-      
-      setTimeout(() => {
-        navigate(route, { replace: true });
-      }, 100);
-
-    } catch (err) {
-      console.error('❌ Login Error:', err);
-      
-      // Handle different error types
-      let errorMessage = 'Login failed. Please try again.';
-      
-      if (err.response?.data) {
-        const errorData = err.response.data;
-        
-        // Handle validation errors from backend
-        if (errorData.detail) {
-          if (Array.isArray(errorData.detail)) {
-            // Pydantic validation errors
-            errorMessage = errorData.detail.map(e => e.msg).join(', ');
-          } else if (typeof errorData.detail === 'string') {
-            errorMessage = errorData.detail;
-          } else if (typeof errorData.detail === 'object') {
-            errorMessage = JSON.stringify(errorData.detail);
-          }
-        } else if (errorData.message) {
-          errorMessage = errorData.message;
-        }
-      } else if (err.message) {
-        errorMessage = err.message;
-      }
-      
-      setError(errorMessage);
-    } finally {
-      setLoading(false);
+    if(profileError){
+      setError("Profile not found");
+      return;
     }
+
+    localStorage.setItem("user_role", profile.role);
+
+    console.log("LOGIN SUCCESS →", profile.role);
+
+    // REDIRECT
+    const routes={
+      STUDENT:"/student/dashboard",
+      FACULTY:"/faculty/dashboard",
+      AUTHORITY:"/authority/dashboard",
+      ADMIN:"/admin/dashboard"
+    };
+
+    navigate(routes[profile.role?.toUpperCase()] || "/student/dashboard");
+
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
-      <div className="w-full max-w-md">
-        <form onSubmit={handleLogin} className="bg-white p-8 rounded-2xl shadow-xl space-y-6">
-          {/* Header */}
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-blue-700 mb-2">Welcome to AEGIS</h1>
-            <p className="text-gray-600">Sign in with your IIT Mandi email</p>
+
+    <div className="min-h-screen flex items-center justify-center bg-blue-50">
+
+      <form
+        onSubmit={handleLogin}
+        className="bg-white shadow-lg rounded-xl p-8 w-96 space-y-4"
+      >
+
+        <h1 className="text-2xl font-bold text-blue-700 text-center">
+          AEGIS Login
+        </h1>
+
+        {error && (
+          <div className="bg-red-100 text-red-700 p-2 rounded text-sm">
+            {error}
           </div>
+        )}
 
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-              {error}
-            </div>
-          )}
+        <input
+          type="email"
+          placeholder="Institute Email"
+          className="w-full border p-3 rounded"
+          value={email}
+          onChange={e=>setEmail(e.target.value)}
+          required
+        />
 
-          {/* Email Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your institute email"
-              className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (error) setError('');
-              }}
-              required
-              disabled={loading}
-            />
-          </div>
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full border p-3 rounded"
+          value={password}
+          onChange={e=>setPassword(e.target.value)}
+          required
+        />
 
-          {/* Password Input */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
+        <button className="w-full bg-blue-700 text-white py-3 rounded">
+          Login
+        </button>
 
-          {/* Submit Button */}
-          <button 
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-lg hover:shadow-xl"
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Signing in...
-              </span>
-            ) : (
-              'Sign In'
-            )}
-          </button>
+      </form>
 
-          {/* Info Box */}
-         
-        </form>
-      </div>
     </div>
   );
-};
-
-export default Login;
+}

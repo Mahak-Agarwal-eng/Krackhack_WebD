@@ -38,7 +38,7 @@
 #         .single()\
 #         .execute()
 
-#     enroll = supabase.table("enrollemnts")\
+#     enroll = supabase.table("enrollments")\
 #         .select("*")\
 #         .eq("student_id", user_id)\
 #         .execute()
@@ -115,7 +115,7 @@ def user_full(user_id:str):
         .single()\
         .execute()
 
-    enroll=supabase.table("enrollemnts")\
+    enroll=supabase.table("enrollments")\
         .select("*")\
         .eq("student_id",user_id)\
         .execute()

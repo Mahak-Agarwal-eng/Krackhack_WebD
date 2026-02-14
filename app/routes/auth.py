@@ -544,3 +544,25 @@ async def verify_role(
         "role": user_role,
         "profile": profile
     }
+
+
+# @router.get("/debug/me")
+# async def debug_me(user = Depends(get_current_user)):
+#     return {
+#         "user_object": user,
+#         "keys": list(user.keys()) if isinstance(user, dict) else "not a dict"
+#     }
+
+@router.get("/debug/token-info")
+async def debug_token_info(current_user: Dict[str, Any] = Depends(get_current_user)):
+    """
+    Debug endpoint - shows what's in the JWT token
+    This WON'T break login because it's a separate GET endpoint
+    """
+    return {
+        "user_object": current_user,
+        "keys_in_token": list(current_user.keys()) if isinstance(current_user, dict) else [],
+        "has_sub": "sub" in current_user if isinstance(current_user, dict) else False,
+        "has_id": "id" in current_user if isinstance(current_user, dict) else False,
+        "has_user_id": "user_id" in current_user if isinstance(current_user, dict) else False,
+    }

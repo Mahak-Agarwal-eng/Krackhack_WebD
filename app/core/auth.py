@@ -40,7 +40,7 @@
 #             detail="Invalid Supabase token"
 #         )
 
-
+#app/core/auth
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
