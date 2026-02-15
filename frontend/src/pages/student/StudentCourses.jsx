@@ -287,7 +287,6 @@ const StudentCourses = () => {
       // Ensure this matches your backend @router.get("/details/{user_id}")
       const response = await axios.get(`http://localhost:8000/api/student-courses/details/${userId}`);
       
-      // ✅ FIX: Use the correct setter name defined in your state
       setCourses(response.data); 
       if (response.data.length > 0) setSelectedCourse(response.data[0]);
     } catch (error) {

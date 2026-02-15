@@ -2,6 +2,7 @@ import { useState } from "react";
 import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
 import StatusBadge from "../../components/StatusBadge";
+import { Link } from "react-router-dom";
 import { 
   User,
   Mail,
@@ -25,6 +26,44 @@ import {
   Users,
   CheckCircle
 } from "lucide-react";
+const FacultyNav = () => (
+  <div className="flex gap-6 font-sans text-sm font-medium">
+
+    <Link to="/faculty/dashboard" className="text-[#1e293b] hover:text-[#38b2ac]">
+      Dashboard
+    </Link>
+
+    <Link to="/faculty/courses" className="text-[#64748b] hover:text-[#1e293b]">
+      Courses
+    </Link>
+
+    <Link to="/faculty/attendance" className="text-[#64748b] hover:text-[#1e293b]">
+      Attendance
+    </Link>
+
+    <Link to="/faculty/resources" className="text-[#64748b] hover:text-[#1e293b]">
+      Resources
+    </Link>
+
+    <Link to="/faculty/announcements" className="text-[#64748b] hover:text-[#1e293b]">
+      Announcements
+    </Link>
+
+    <Link to="/faculty/calendar" className="text-[#64748b] hover:text-[#1e293b]">
+      Calendar
+    </Link>
+    <Link to="/faculty/grade" className="text-[#64748b] hover:text-[#1e293b]">
+      Grade
+    </Link>
+    <Link to="/faculty/profile" className="text-[#64748b] hover:text-[#1e293b]">
+      Profile
+    </Link>
+    <Link to="/faculty/students" className="text-[#64748b] hover:text-[#1e293b]">
+      Students
+    </Link> 
+  </div>
+);
+
 
 // Mock faculty profile data
 const initialProfileData = {
@@ -811,7 +850,7 @@ export default function FacultyProfile() {
   };
 
   return (
-    <AppLayout>
+    <AppLayout navigation={<FacultyNav />}>
       <h1 className="text-3xl font-serif mb-6">Faculty Profile</h1>
 
       {/* Tabs */}

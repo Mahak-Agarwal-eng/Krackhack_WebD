@@ -166,7 +166,8 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const API_PREFIX = import.meta.env.REACT_APP_API_PREFIX || '/api';
 import axios from "axios";
-
+// from fastapi import APIRouter, HTTPException
+// from app.services.supabase_client import supabase
 const BASE_URL = "http://localhost:8000/api/authority";
 
 class AuthorityAPI {
