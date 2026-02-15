@@ -1,5 +1,3 @@
-// 
-
 import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
 import StatusBadge from "../../components/StatusBadge";
@@ -11,11 +9,7 @@ import {
   Activity,
   Server,
   BookOpen,
-  GraduationCap,
   Calendar,
-  UserCheck,
-  Settings,
-  Database
 } from "lucide-react";
 
 
@@ -42,14 +36,11 @@ const AdminNav = () => (
       Courses
     </Link>
 
-    <Link to="/admin/faculty"
-      className="text-[#64748b] hover:text-[#1e293b]">
-      Faculty
-    </Link>
+    {/* Faculty Link Removed */}
 
     <Link to="/admin/users"
       className="text-[#64748b] hover:text-[#1e293b]">
-      Students
+      Users
     </Link>
 
     <Link to="/admin/semesters"
@@ -75,16 +66,10 @@ const quickAccess = [
     desc: "Create and manage courses"
   },
   {
-    title: "Manage Faculty",
-    icon: GraduationCap,
-    link: "/admin/faculty",
-    desc: "Assign faculty to courses"
-  },
-  {
-    title: "Manage Students",
+    title: "Manage Users",
     icon: Users,
     link: "/admin/users",
-    desc: "View and manage students"
+    desc: "View and manage system users"
   },
   {
     title: "Manage Semesters",
@@ -108,7 +93,7 @@ const AdminDashboard = () => (
       </h1>
 
       <p className="text-[#64748b]">
-        Full system control and academic management
+       
       </p>
 
     </div>
@@ -156,13 +141,13 @@ const AdminDashboard = () => (
         Academic Management
       </h2>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {quickAccess.map((item) => (
 
           <Link to={item.link} key={item.title}>
 
-            <GlassCard className="hover:shadow-md transition">
+            <GlassCard className="hover:shadow-md transition h-full">
 
               <item.icon className="w-10 h-10 text-blue-600 mb-3"/>
 
