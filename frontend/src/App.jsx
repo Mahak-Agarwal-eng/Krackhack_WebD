@@ -49,6 +49,7 @@ import AdminStudents from "./pages/admin/AdminStudents";
 import AdminSemesters from "./pages/admin/AdminSemesters";
 import UserManagement from "./pages/UserManagement";
 
+
 function App() {
   // restore Supabase session
   useEffect(() => {

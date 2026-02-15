@@ -586,7 +586,7 @@ async def get_courses(status: Optional[str] = None):
         # Add enrollment count for each course
         courses_with_stats = []
         for course in result.data:
-            enrollment = supabase.table("enrollemnts")\
+            enrollment = supabase.table("enrollments")\
                 .select("student_id", count="exact")\
                 .eq("course_id", course['course_id'])\
                 .eq("status", "active")\
@@ -678,7 +678,7 @@ async def get_students(
         students_with_stats = []
         for student in result.data:
             # Get enrollment
-            enrollments = supabase.table("enrollemnts")\
+            enrollments = supabase.table("enrollments")\
                 .select("course_id")\
                 .eq("student_id", student['id'])\
                 .eq("status", "active")\
@@ -737,7 +737,7 @@ async def get_student_details(student_id: str):
             .execute()
         
         # Get enrollments
-        enrollments = supabase.table("enrollemnts")\
+        enrollments = supabase.table("enrollments")\
             .select("*")\
             .eq("student_id", student_id)\
             .execute()
@@ -778,7 +778,7 @@ async def send_notification(notification: NotificationCreate):
         
         elif notification.recipient_type == "course":
             for course_id in notification.course_ids:
-                enrollments = supabase.table("enrollemnts")\
+                enrollments = supabase.table("enrollments")\
                     .select("student_id", count="exact")\
                     .eq("course_id", course_id)\
                     .execute()
@@ -851,7 +851,7 @@ async def get_course_performance():
         performance_data = []
         for course in courses.data:
             # Get stats for each course
-            enrollment = supabase.table("enrollemnts")\
+            enrollment = supabase.table("enrollments")\
                 .select("student_id", count="exact")\
                 .eq("course_id", course['course_id'])\
                 .execute()

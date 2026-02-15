@@ -104,7 +104,6 @@ const AuthorityGrievances = () => {
         <h1 className="text-3xl font-extrabold text-gray-900">
           {deptName} Dashboard
         </h1>
-
         <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-medium">
           Active Grievances: {grievances.length}
         </div>
@@ -119,7 +118,6 @@ const AuthorityGrievances = () => {
             >
               <div className="flex justify-between items-start mb-2">
                 <h3 className="text-xl font-bold">{g.title}</h3>
-
                 <span
                   className={`px-3 py-1 rounded text-xs font-bold uppercase ${
                     g.status === "PENDING"
@@ -137,7 +135,6 @@ const AuthorityGrievances = () => {
                 <button className="text-sm font-semibold text-blue-600 hover:text-blue-800">
                   Update Status
                 </button>
-
                 <button className="text-sm font-semibold text-gray-500 hover:text-gray-700">
                   View Attachments
                 </button>
