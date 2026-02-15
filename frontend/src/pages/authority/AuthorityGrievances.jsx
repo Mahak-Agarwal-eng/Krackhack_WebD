@@ -1,85 +1,159 @@
-<<<<<<< HEAD
-// AuthorityGrievanceView.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../lib/supbase";
 
-const AuthorityGrievanceView = ({ userId }) => {
-  const [dept, setDept] = useState(null);
+const AuthorityGrievances = () => {
+  const [userId, setUserId] = useState(null);
+  const [deptName, setDeptName] = useState("");
   const [grievances, setGrievances] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    const fetchDashboardData = async () => {
       try {
-        // 1. Call your new SAFE endpoint
-        const res = await axios.get(
-          `http://localhost:8000/api/admin/users/authority-dept/${userId}`,
+        setLoading(true);
+        setError("");
+
+        // 🔥 Step 1: Get logged-in user from Supabase
+        const {
+          data: { user },
+          error: authError,
+        } = await supabase.auth.getUser();
+
+        if (authError) {
+          console.error("Auth error:", authError);
+          setError("Authentication failed.");
+          setLoading(false);
+          return;
+        }
+
+        if (!user) {
+          setError("User not logged in.");
+          setLoading(false);
+          return;
+        }
+
+        console.log("Authority User ID:", user.id);
+        setUserId(user.id);
+
+        // 🔥 Step 2: Get authority profile from backend
+        const profileRes = await axios.get(
+          "http://localhost:8000/api/authority/profile",
+          {
+            params: { user_id: user.id },
+          },
         );
 
-        const { role, department } = res.data;
+        console.log("Profile Response:", profileRes.data);
 
-        if (role === "authority" && department) {
-          setDept(department);
+        const role = profileRes.data.role?.toLowerCase();
+        const dept_id = profileRes.data.dept_id;
+        const dept_name = profileRes.data.dept_name || "Department";
 
-          // 2. Initial fetch for existing grievances in this department
-          const { data } = await supabase
-            .from("grievances")
-            .select("*")
-            .eq("category", department);
-          setGrievances(data);
-
-          // 3. Realtime listener for NEW grievances in this department
-          const channel = supabase
-            .channel(`dept-feed-${department}`)
-            .on(
-              "postgres_changes",
-              {
-                event: "INSERT",
-                schema: "public",
-                table: "grievances",
-                filter: `category=eq.${department}`,
-              },
-              (payload) => {
-                setGrievances((prev) => [payload.new, ...prev]);
-              },
-            )
-            .subscribe();
-
-          return () => supabase.removeChannel(channel);
+        if (role !== "authority") {
+          setError("Access denied. Not an authority.");
+          setLoading(false);
+          return;
         }
+
+        if (!dept_id) {
+          setError("Department not found.");
+          setLoading(false);
+          return;
+        }
+
+        setDeptName(dept_name);
+
+        // 🔥 Step 3: Fetch grievances for department
+        const grievancesRes = await axios.get(
+          `http://localhost:8000/api/list-by-dept/${dept_id}`,
+        );
+
+        console.log("Grievances Response:", grievancesRes.data);
+
+        setGrievances(grievancesRes.data || []);
       } catch (err) {
-        console.error("Authority Init Error:", err);
+        console.error("Dashboard Error:", err.response || err);
+        setError(err.response?.data?.detail || "Failed to load dashboard.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (userId) initializeAuth();
-  }, [userId]);
+    fetchDashboardData();
+  }, []);
 
-  if (!dept)
-    return <div className="p-10">Verifying Authority Credentials...</div>;
+  // 🔄 Loading State
+  if (loading) {
+    return (
+      <div className="p-10 text-center text-gray-500">Loading dashboard...</div>
+    );
+  }
+
+  // ❌ Error State
+  if (error) {
+    return (
+      <div className="p-10 text-center text-red-500 font-semibold">{error}</div>
+    );
+  }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">{dept} Management Portal</h1>
-      <div className="grid gap-4">
-        {grievances.map((g) => (
-          <div key={g.id} className="p-4 border rounded shadow-sm bg-white">
-            <h3 className="font-semibold text-lg">{g.title}</h3>
-            <p className="text-gray-600 mb-2">{g.description}</p>
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-medium px-2 py-1 bg-blue-100 text-blue-800 rounded">
-                Status: {g.status}
-              </span>
-              <button className="text-blue-600 hover:underline">
-                View Details
-              </button>
+    <div className="p-8 max-w-6xl mx-auto">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-extrabold text-gray-900">
+          {deptName} Dashboard
+        </h1>
+
+        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-medium">
+          Active Grievances: {grievances.length}
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {grievances.length > 0 ? (
+          grievances.map((g) => (
+            <div
+              key={g.id}
+              className="p-6 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="text-xl font-bold">{g.title}</h3>
+
+                <span
+                  className={`px-3 py-1 rounded text-xs font-bold uppercase ${
+                    g.status === "PENDING"
+                      ? "bg-orange-100 text-orange-600"
+                      : "bg-green-100 text-green-600"
+                  }`}
+                >
+                  {g.status}
+                </span>
+              </div>
+
+              <p className="text-gray-600">{g.description}</p>
+
+              <div className="mt-4 flex gap-3">
+                <button className="text-sm font-semibold text-blue-600 hover:text-blue-800">
+                  Update Status
+                </button>
+
+                <button className="text-sm font-semibold text-gray-500 hover:text-gray-700">
+                  View Attachments
+                </button>
+              </div>
             </div>
+          ))
+        ) : (
+          <div className="text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            <p className="text-gray-500">
+              No grievances reported for this department yet.
+            </p>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 };
-=======
- export default function AuthorityAnalytics() {}
->>>>>>> bdaf68e3ffcd0a93008d9a4f6e35d711ba54dac9
+
+export default AuthorityGrievances;

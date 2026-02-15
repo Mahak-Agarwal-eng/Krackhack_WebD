@@ -118,8 +118,6 @@ const StudentGrievances = () => {
     "Canteen",
     "Sports",
     "Transportation",
-    "Harassment",
-    "Discrimination",
     "Other",
   ];
 

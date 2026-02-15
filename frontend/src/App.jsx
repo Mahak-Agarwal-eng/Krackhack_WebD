@@ -8,15 +8,6 @@ import { useEffect } from "react";
 import { supabase } from "./lib/supbase";
 // Components
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-// Admin Pages
-import AdminAcademics from "./pages/admin/AdminAcademics";
-import Academics from "./pages/Academics";
-import AdminCourses from "./pages/admin/AdminCourses";
-import AdminFaculty from "./pages/admin/AdminFaculty";
-import AdminStudents from "./pages/admin/AdminStudents";
-import AdminSemesters from "./pages/admin/AdminSemesters";
-import AdminDashboardPart3 from "./pages/admin/AdminDashBoardPart3";
-
 // ---------- AUTH ----------
 import Login from "./pages/auth/Login";
 
@@ -57,9 +48,6 @@ import AdminFaculty from "./pages/admin/AdminFaculty";
 import AdminStudents from "./pages/admin/AdminStudents";
 import AdminSemesters from "./pages/admin/AdminSemesters";
 import UserManagement from "./pages/UserManagement";
-
-// ---------- COMPONENT ----------
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   // restore Supabase session
