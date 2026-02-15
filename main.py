@@ -97,6 +97,8 @@ from app.routes.grievances import router as grievance_router
 
 # NEW USER MANAGEMENT ROUTE
 from app.routes.users import router as users_router
+from app.routes import student_courses
+
 
 
 app = FastAPI(
@@ -129,6 +131,13 @@ app.include_router(users_router, prefix=settings.API_PREFIX)
 # -------------------------
 # HEALTH
 # -------------------------
+
+
+app.include_router(
+    student_courses.router,
+    prefix="/api/student-courses",
+    tags=["Student Courses"]
+)
 @app.get("/")
 def root():
     return {
