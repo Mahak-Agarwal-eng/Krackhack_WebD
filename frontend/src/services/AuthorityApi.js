@@ -358,13 +358,13 @@ async deleteCourse(courseId) {
 
   // ==================== ANALYTICS ENDPOINTS ====================
 
-  async getAnalyticsOverview() {
-    return this.request('/analytics/overview');
-  }
+//   async getAnalyticsOverview() {
+//     return this.request('/analytics/overview');
+//   }
 
-  async getCoursePerformance() {
-    return this.request('/analytics/course-performance');
-  }
+//   async getCoursePerformance() {
+//     return this.request('/analytics/course-performance');
+//   }
 
   async getStudentPerformance() {
     // Return mock data for now - implement backend endpoint later

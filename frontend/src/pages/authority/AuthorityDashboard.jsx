@@ -25,7 +25,7 @@ const AuthorityNav = () => (
     <Link to="/authority/dashboard" className="text-[#1e293b] hover:text-[#38b2ac] transition-colors">Dashboard</Link>
     <Link to="/authority/Students" className="text-[#64748b] hover:text-[#1e293b] transition-colors">Students</Link>
     <Link to="/authority/courses" className="text-[#64748b] hover:text-[#1e293b]">Courses</Link>
-    <Link to="/authority/analytics" className="text-[#64748b] hover:text-[#1e293b]">Analytics</Link>
+    <Link to="/authority/grievances" className="text-[#64748b] hover:text-[#1e293b]">Grievances</Link>  
     <Link to="/authority/notifications" className="text-[#64748b] hover:text-[#1e293b]">Notifications</Link>
   </div>
 );
@@ -48,7 +48,7 @@ export default function AuthorityDashboard() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [systemAlerts, setSystemAlerts] = useState([]);
   const [recentActivities, setRecentActivities] = useState([]);
-  const [attendanceSummary, setAttendanceSummary] = useState(null);
+  // const [attendanceSummary, setAttendanceSummary] = useState(null);
 
   // Fetch all dashboard data
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function AuthorityDashboard() {
           eventsData,
           alertsData,
           activitiesData,
-          attendanceData
+          // attendanceData
         ] = await Promise.all([
           AuthorityApi.getAuthorityProfile(userId),
           AuthorityApi.getDashboardMetrics(),
@@ -75,7 +75,7 @@ export default function AuthorityDashboard() {
           AuthorityApi.getUpcomingEvents(),
           AuthorityApi.getSystemAlerts(),
           AuthorityApi.getRecentActivities(),
-          AuthorityApi.getAttendanceSummary()
+          // AuthorityApi.getAttendanceSummary()
         ]);
 
         // Set authority profile
@@ -107,22 +107,22 @@ export default function AuthorityDashboard() {
             color: "text-purple-600",
             bgColor: "bg-purple-100"
           },
-          { 
-            label: "Avg Attendance", 
-            value: `${metricsData.avgAttendance}%`, 
-            change: "+2.3% vs last sem",
-            icon: UserCheck, 
-            color: "text-orange-600",
-            bgColor: "bg-orange-100"
-          },
-        ];
+        //   { 
+        //     label: "Avg Attendance", 
+        //     value: `${metricsData.avgAttendance}%`, 
+        //     change: "+2.3% vs last sem",
+        //     icon: UserCheck, 
+        //     color: "text-orange-600",
+        //     bgColor: "bg-orange-100"
+        //   },
+         ];
 
         setMetrics(formattedMetrics);
         setCourseOverview(coursesData);
         setUpcomingEvents(eventsData);
         setSystemAlerts(alertsData);
         setRecentActivities(activitiesData);
-        setAttendanceSummary(attendanceData);
+        // setAttendanceSummary(attendanceData);
 
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
@@ -143,7 +143,7 @@ export default function AuthorityDashboard() {
   const getActivityIcon = (text) => {
     if (text.includes('course')) return BookOpen;
     if (text.includes('exam') || text.includes('schedule')) return Calendar;
-    if (text.includes('attendance')) return UserCheck;
+    // if (text.includes('attendance')) return UserCheck;
     if (text.includes('material') || text.includes('upload')) return Upload;
     return Clock;
   };
@@ -194,14 +194,14 @@ export default function AuthorityDashboard() {
               {authorityData?.role || 'Authority'} • {authorityData?.department || 'Department'}
             </p>
           </div>
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <Link to="/authority/analytics">
               <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                 <BarChart3 size={18} />
                 View Reports
               </button>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
      
@@ -278,12 +278,12 @@ export default function AuthorityDashboard() {
                             <Users size={14} />
                             {course.enrolled} students
                           </span>
-                          <span className="flex items-center gap-1">
+                          {/* <span className="flex items-center gap-1">
                             <UserCheck size={14} />
                             <span className={course.attendance >= 85 ? "text-green-600" : course.attendance >= 75 ? "text-orange-600" : "text-red-600"}>
                               {course.attendance}% attendance
                             </span>
-                          </span>
+                          </span> */}
                           <span className="flex items-center gap-1">
                             <BarChart3 size={14} />
                             <span className={course.avgMarks >= 75 ? "text-green-600" : course.avgMarks >= 60 ? "text-orange-600" : "text-red-600"}>
@@ -342,10 +342,10 @@ export default function AuthorityDashboard() {
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar
         <div className="space-y-6">
           {/* System Alerts */}
-          <GlassCard className="p-6">
+          {/* <GlassCard className="p-6">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <AlertTriangle size={20} className="text-orange-600" />
               Priority Alerts
@@ -382,10 +382,10 @@ export default function AuthorityDashboard() {
                 <p className="text-gray-500 text-sm text-center py-4">No alerts</p>
               )}
             </div>
-          </GlassCard>
+          </GlassCard> */} 
 
           {/* Recent Activities */}
-          <GlassCard className="p-6">
+          {/* <GlassCard className="p-6">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
               <Clock size={20} className="text-blue-600" />
               Recent Activities
@@ -410,9 +410,9 @@ export default function AuthorityDashboard() {
                 <p className="text-gray-500 text-sm text-center py-4">No recent activities</p>
               )}
             </div>
-          </GlassCard>
+          </GlassCard> */}
 
-          {/* Attendance Summary */}
+          {/* Attendance Summary
           {attendanceSummary && (
             <GlassCard className="p-6">
               <h3 className="text-lg font-semibold mb-4">Attendance Summary</h3>
@@ -443,8 +443,8 @@ export default function AuthorityDashboard() {
                 </div>
               </div>
             </GlassCard>
-          )}
-        </div>
+          )} */}
+        {/* </div> */}
       </div>
     </AppLayout>
   );
