@@ -1,8 +1,10 @@
-<<<<<<< HEAD
 // AuthorityGrievanceView.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../lib/supbase";
+
+
+
 
 const AuthorityGrievanceView = ({ userId }) => {
   const [dept, setDept] = useState(null);
@@ -80,6 +82,4 @@ const AuthorityGrievanceView = ({ userId }) => {
     </div>
   );
 };
-=======
- export default function AuthorityAnalytics() {}
->>>>>>> bdaf68e3ffcd0a93008d9a4f6e35d711ba54dac9
+export default AuthorityGrievanceView;
