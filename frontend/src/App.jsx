@@ -14,7 +14,7 @@ import StudentNotifications from "./pages/student/StudentNotification";
 import StudentResources from "./pages/student/StudentResources";
 import StudentGrievances from "./pages/student/StudentGrievances";
 import Caravan from "./pages/Caravan";
-
+import StudentOpportunities from "./pages/student/StudentOpportunities";
 // ---------- FACULTY ----------
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import FacultyCourses from "./pages/faculty/FacultyCourses";
@@ -81,7 +81,15 @@ function App() {
             <StudentDashboard />
           </ProtectedRoute>
         }/>
-
+        {/* STUDENT OPPORTUNITIES */}
+        <Route 
+        path="/student/opportunities" 
+        element={
+            <ProtectedRoute allowedRoles={["STUDENT"]}>
+            <StudentOpportunities />
+            </ProtectedRoute>
+        } 
+        />
         <Route path="/student/caravan" element={
           <ProtectedRoute allowedRoles={["STUDENT"]}>
             <Caravan />

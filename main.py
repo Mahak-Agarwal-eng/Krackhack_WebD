@@ -100,6 +100,10 @@ from app.routes.users import router as users_router
 from app.routes import student_courses
 
 
+from app.routes import student_opportunities
+
+
+
 
 app = FastAPI(
     title="AEGIS API",
@@ -131,7 +135,12 @@ app.include_router(users_router, prefix=settings.API_PREFIX)
 # -------------------------
 # HEALTH
 # -------------------------
-
+# Final URL will be: http://localhost:8000/api/student-opportunities/
+app.include_router(
+    student_opportunities.router,
+    prefix="/api/student-opportunities",
+    tags=["Student Opportunities"]
+)
 
 app.include_router(
     student_courses.router,
