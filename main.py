@@ -105,6 +105,7 @@ from app.routes import student_opportunities
 
 from app.routes import student_attendance
 
+from app.routes.authority import router as authority_router
 
 
 app = FastAPI(
@@ -131,7 +132,7 @@ app.include_router(auth_router, prefix=settings.API_PREFIX)
 
 # 2. INCLUDE the grievance router
 app.include_router(grievance_router, prefix=settings.API_PREFIX)
-
+app.include_router(authority_router, prefix=settings.API_PREFIX)
 # ADD THIS LINE
 app.include_router(users_router, prefix=settings.API_PREFIX)
 # -------------------------

@@ -1,8 +1,10 @@
-import { useState } from "react";
+
 import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
 import StatusBadge from "../../components/StatusBadge";
 import AuthorityNav from "./AuthorityNav";
+import React, { useState, useEffect } from "react";
+import AuthorityApi from "../../services/AuthorityApi";
 import { 
   BarChart3,
   TrendingUp,
@@ -20,15 +22,7 @@ import {
   Activity
 } from "lucide-react";
 
-// Mock analytics data
-const overviewStats = {
-  totalStudents: 342,
-  totalCourses: 24,
-  totalFaculty: 18,
-  avgAttendance: 84.2,
-  avgCGPA: 7.6,
-  passRate: 92.5,
-};
+
 
 const coursePerformance = [
   { code: "CS301", name: "Database Management Systems", enrolled: 45, avgMarks: 71.3, attendance: 82.5, passRate: 91 },
@@ -84,11 +78,28 @@ const reportTypes = [
 
 export default function AuthorityAnalytics() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [overviewStats, setOverviewStats] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const handleDownloadReport = (reportType) => {
     alert(`Downloading ${reportType} report...`);
   };
 
+  useEffect(() => {
+    fetchAnalytics();
+  }, [activeTab]);
+
+  const fetchAnalytics = async () => {
+    try {
+      setLoading(true);
+      const data = await AuthorityApi.getAnalyticsOverview();
+      setOverviewStats(data);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const renderOverviewTab = () => (
     <>
       {/* Key Metrics */}
