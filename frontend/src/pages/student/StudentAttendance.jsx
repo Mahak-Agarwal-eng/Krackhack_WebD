@@ -5,30 +5,99 @@ import { createClient } from "@supabase/supabase-js";
 import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
 import StatusBadge from "../../components/StatusBadge";
+import { Link } from "react-router-dom";
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 const ATTENDANCE_API = "http://localhost:8000/api/attendance/details";
-
+const StudentNav = () => (
+  <div className="flex gap-6 font-sans text-sm font-medium">
+    <Link
+      to="/student/dashboard"
+      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
+    >
+      Dashboard
+    </Link>
+    
+    <Link
+      to="/student/calendar"
+      className="text-[#64748b] hover:text-[#1e293b]"
+    >
+      Calendar
+    </Link>
+    <Link to="/student/courses" className="text-[#64748b] hover:text-[#1e293b]">
+      Courses
+    </Link>
+    <Link
+      to="/student/attendance"
+      className="text-[#64748b] hover:text-[#1e293b]"
+    >
+      Attendance
+    </Link>
+    <Link
+      to="/student/notifications"
+      className="text-[#64748b] hover:text-[#1e293b]"
+    >
+      Notifications
+    </Link>
+    <Link
+      to="/student/grievances"
+      className="text-[#1e293b] hover:text-[#38b2ac] transition-colors"
+    >
+      Grievances
+    </Link>
+    <Link
+      to="/student/opportunities"
+      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
+    >
+      Opportunities
+    </Link>
+  </div>
+);
 const StudentAttendance = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAttendance = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        try {
-          const res = await axios.get(`${ATTENDANCE_API}/${user.id}`);
-          setRecords(res.data || []);
-        } catch (err) {
-          console.error("Citadel Attendance Sync Failed:", err);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    fetchAttendance();
-  }, []);
+ useEffect(() => {
+  // Hardcoded attendance records
+  const hardcodedRecords = [
+    {
+      id: 1,
+      course_id: "CS-512",
+      attended: 18,
+      total: 22,
+      updated_at: "2026-02-15",
+      courses: { course_name: "Machine Learning" }
+    },
+    {
+      id: 2,
+      course_id: "CS-671",
+      attended: 12,
+      total: 20,
+      updated_at: "2026-02-14",
+      courses: { course_name: "Artificial Intelligence" }
+    },
+    {
+      id: 3,
+      course_id: "CS-201",
+      attended: 25,
+      total: 28,
+      updated_at: "2026-02-13",
+      courses: { course_name: "Data Structures" }
+    },
+    {
+      id: 4,
+      course_id: "CS-252",
+      attended: 10,
+      total: 18,
+      updated_at: "2026-02-12",
+      courses: { course_name: "Database Systems" }
+    }
+  ];
+
+  setRecords(hardcodedRecords);
+  setLoading(false);
+}, []);
+
 
   if (loading) {
     return (
@@ -39,7 +108,8 @@ const StudentAttendance = () => {
   }
 
   return (
-    <AppLayout>
+    
+    <AppLayout navigation={<StudentNav />}>
       <div className="mb-10">
         <h1 className="text-4xl font-serif text-[#1e293b]">Attendance Ledger</h1>
         <p className="text-[#64748b] mt-1">Detailed audit of your presence in the Citadel's lectures.</p>

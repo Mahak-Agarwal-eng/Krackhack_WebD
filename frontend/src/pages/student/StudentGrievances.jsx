@@ -28,12 +28,7 @@ const StudentNav = () => (
     >
       Dashboard
     </Link>
-    <Link
-      to="/academics"
-      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
-    >
-      Academics
-    </Link>
+    
     <Link
       to="/student/calendar"
       className="text-[#64748b] hover:text-[#1e293b]"

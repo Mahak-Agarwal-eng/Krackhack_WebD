@@ -21,6 +21,7 @@ import StudentResources from "./pages/student/StudentResources";
 import StudentGrievances from "./pages/student/StudentGrievances";
 import Caravan from "./pages/Caravan";
 import StudentOpportunities from "./pages/student/StudentOpportunities";
+
 // ---------- FACULTY ----------
 import FacultyDashboard from "./pages/faculty/FacultyDashboard";
 import FacultyCourses from "./pages/faculty/FacultyCourses";
