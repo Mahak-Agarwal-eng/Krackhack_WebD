@@ -599,7 +599,16 @@ async def get_courses(status: Optional[str] = None):
     except Exception as e:
         print(f"Error in get_courses: {str(e)}")
         return []
-
+@router.get("/")
+async def get_notifications():
+    try:
+        # Fetch all notifications from the table
+        response = supabase.table("notification").select("*").execute()
+        if response.error:
+            raise HTTPException(status_code=500, detail=response.error.message)
+        return response.data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/courses")
 async def create_course(course: CourseCreate):

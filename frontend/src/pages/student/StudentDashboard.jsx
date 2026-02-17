@@ -545,9 +545,9 @@ import {
 } from "lucide-react";
 
 const stats = [
-  { label: "Active Grievances", value: "12", icon: MessageSquareWarning, color: "text-[#1e293b]" },
-  { label: "Courses Enrolled", value: "6", icon: GraduationCap, color: "text-[#1e293b]" },
-  { label: "Open Opportunities", value: "24", icon: Briefcase, color: "text-[#1e293b]" },
+  { label: "Active Grievances", value: "6", icon: MessageSquareWarning, color: "text-[#1e293b]" },
+  { label: "Courses Enrolled", value: "4", icon: GraduationCap, color: "text-[#1e293b]" },
+  { label: "Open Opportunities", value: "2", icon: Briefcase, color: "text-[#1e293b]" },
   { label: "Campus Users", value: "1.2k", icon: Users, color: "text-[#1e293b]" },
 ];
 
