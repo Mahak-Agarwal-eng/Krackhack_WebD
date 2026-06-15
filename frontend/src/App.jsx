@@ -33,13 +33,14 @@ import FacultyGrade from "./pages/faculty/FacultyGrade";
 import FacultyProfile from "./pages/faculty/FacultyProfile";
 import FacultyStudents from "./pages/faculty/FacultyStudents";
 
+
 // ---------- AUTHORITY ----------
 import AuthorityDashboard from "./pages/authority/AuthorityDashboard";
 import AuthorityGrievances from "./pages/authority/AuthorityGrievances";
 import AuthorityNotifications from "./pages/authority/AuthorityNotifications";
 import AuthorityCourses from "./pages/authority/AuthorityCourses";
 import AuthorityStudents from "./pages/authority/AuthorityStudents";
-
+import AuthorityGrievances from "./pages/authority/AuthorityGrievances";
 // ---------- ADMIN ----------
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDashboardPart3 from "./pages/admin/AdminDashBoardPart3";
@@ -93,34 +94,28 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/student/caravan"
-          element={
-            <ProtectedRoute allowedRoles={["STUDENT"]}>
-              <Caravan />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/student/courses"
-          element={
-            <ProtectedRoute allowedRoles={["STUDENT"]}>
-              <StudentCourses />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/student/calendar"
-          element={
-            <ProtectedRoute allowedRoles={["STUDENT"]}>
-              <StudentCalendar />
-            </ProtectedRoute>
-          }
-        />
-        import StudentAttendance from "./pages/student/StudentAttendance";
-        <Route
-          path="/student/attendance"
-          element={
+        <Route path="/student/caravan" element={
+          <ProtectedRoute allowedRoles={["STUDENT"]}>
+            <Caravan />
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/student/courses" element={
+          <ProtectedRoute allowedRoles={["STUDENT"]}>
+            <StudentCourses />
+          </ProtectedRoute>
+        }/>
+
+        <Route path="/student/calendar" element={
+          <ProtectedRoute allowedRoles={["STUDENT"]}>
+            <StudentCalendar />
+          </ProtectedRoute>
+        }/>
+
+       
+        <Route 
+        path="/student/attendance" 
+        element={
             <ProtectedRoute allowedRoles={["STUDENT"]}>
               <StudentAttendance />
             </ProtectedRoute>
@@ -232,22 +227,8 @@ function App() {
           element={<Navigate to="/faculty/dashboard" replace />}
         />
         {/* AUTHORITY */}
-        <Route
-          path="/authority/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["AUTHORITY"]}>
-              <AuthorityDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/authority/courses"
-          element={
-            <ProtectedRoute allowedRoles={["AUTHORITY"]}>
-              <AuthorityCourses />
-            </ProtectedRoute>
-          }
-        />
+
+        <Route path="/authority/dashboard" element={<ProtectedRoute allowedRoles={["AUTHORITY"]}><AuthorityDashboard/></ProtectedRoute>} />
         <Route
           path="/authority/grievances"
           element={
@@ -256,26 +237,13 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/authority/notifications"
-          element={
-            <ProtectedRoute allowedRoles={["AUTHORITY"]}>
-              <AuthorityNotifications />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/authority/students"
-          element={
-            <ProtectedRoute allowedRoles={["AUTHORITY"]}>
-              <AuthorityStudents />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/authority/*"
-          element={<Navigate to="/authority/dashboard" replace />}
-        />
+        <Route path="/authority/courses" element={<ProtectedRoute allowedRoles={["AUTHORITY"]}><AuthorityCourses/></ProtectedRoute>} />
+        <Route path="/authority/analytics" element={<ProtectedRoute allowedRoles={["AUTHORITY"]}><AuthorityAnalytics/></ProtectedRoute>} />
+        <Route path="/authority/notifications" element={<ProtectedRoute allowedRoles={["AUTHORITY"]}><AuthorityNotifications/></ProtectedRoute>} />
+        <Route path="/authority/students" element={<ProtectedRoute allowedRoles={["AUTHORITY"]}><AuthorityStudents/></ProtectedRoute>} />
+        <Route path="/authority/*" element={<Navigate to="/authority/dashboard" replace />} />
+
+
         {/* ADMIN */}
         <Route
           path="/admin/dashboard"

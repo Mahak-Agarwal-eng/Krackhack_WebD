@@ -1,140 +1,126 @@
 import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { createClient } from "@supabase/supabase-js";
+import { Bell, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Bell, BookOpen, AlertCircle, Clock } from "lucide-react";
 
-const StudentNav = () => (
-  <div className="flex gap-6 font-sans text-sm font-medium">
-    <Link to="/student/dashboard" className="text-[#64748b] hover:text-[#1e293b]">
-      Dashboard
-    </Link>
-
-    <Link to="/student/calendar" className="text-[#64748b] hover:text-[#1e293b]">
-      Calendar
-    </Link>
-
-    <Link to="/student/courses" className="text-[#64748b] hover:text-[#1e293b]">
-      Courses
-    </Link>
-
-    <Link to="/student/attendance" className="text-[#64748b] hover:text-[#1e293b]">
-      Attendance
-    </Link>
-
-    <Link to="/student/notifications" className="text-[#1e293b] font-semibold">
-      Notifications
-    </Link>
-
-    <Link to="/student/grievances" className="text-[#64748b] hover:text-[#1e293b]">
-      Grievances
-    </Link>
-
-    <Link to="/student/opportunities" className="text-[#64748b] hover:text-[#1e293b]">
-      Opportunities
-    </Link>
-  </div>
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
 );
 
-export default function StudentNotifications() {
+export default function StudentNotifications(){
 
-  const notifications = [
-    {
-      id: 1,
-      title: "Assignment Deadline Approaching",
-      message: "Database Systems assignment due tomorrow at 11:59 PM.",
-      time: "2 hours ago",
-      type: "warning",
-      unread: true
-    },
-    {
-      id: 2,
-      title: "New Resource Uploaded",
-      message: "Machine Learning lecture slides are now available.",
-      time: "5 hours ago",
-      type: "info",
-      unread: true
-    },
-    {
-      id: 3,
-      title: "Attendance Updated",
-      message: "Your attendance for Operating Systems has been updated.",
-      time: "Yesterday",
-      type: "success",
-      unread: false
+  const [userId,setUserId] = useState(null)
+  const [notifications,setNotifications] = useState([])
+  const [loading,setLoading] = useState(true)
+
+  /* GET USER */
+  useEffect(()=>{
+
+    const getUser = async ()=>{
+      const { data:{user} } = await supabase.auth.getUser()
+      if(user) setUserId(user.id)
     }
-  ];
 
-  const getIcon = (type) => {
-    switch(type) {
-      case "warning":
-        return <AlertCircle className="text-yellow-500" size={22} />;
-      case "success":
-        return <BookOpen className="text-green-500" size={22} />;
-      default:
-        return <Bell className="text-blue-500" size={22} />;
+    getUser()
+
+  },[])
+
+  /* FETCH NOTIFICATIONS */
+  useEffect(()=>{
+
+    const fetchNotifications = async ()=>{
+
+      if(!userId) return
+
+      try{
+
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/dashboard/notifications/${userId}`
+        )
+
+        setNotifications(res.data)
+
+      }catch(err){
+        console.error("Notification fetch failed",err)
+      }
+
+      setLoading(false)
+
     }
-  };
 
-  return (
-    <AppLayout navigation={<StudentNav />}>
+    fetchNotifications()
 
-      {/* Header */}
-      <div className="mb-8 flex items-center gap-3">
-        <Bell className="text-[#1e293b]" size={28}/>
-        <h1 className="text-4xl font-serif text-[#1e293b]">
-          Notifications
-        </h1>
+  },[userId])
+
+
+  return(
+
+    <AppLayout>
+
+      {/* HEADER */}
+      <div className="mb-8 flex items-center justify-between">
+
+        <div className="flex items-center gap-3">
+          <Bell className="w-6 h-6 text-[#1e293b]" />
+          <h1 className="text-3xl font-serif text-[#1e293b]">
+            Notifications
+          </h1>
+        </div>
+
+        <Link to="/student/dashboard">
+          <button className="text-sm text-[#64748b] hover:text-[#1e293b] flex items-center gap-1">
+            <ArrowLeft className="w-4 h-4"/>
+            Back
+          </button>
+        </Link>
+
       </div>
 
-      {/* Notification List */}
-      <div className="space-y-4">
 
-        {notifications.map((notif) => (
+      {/* NOTIFICATION LIST */}
+      <GlassCard className="bg-white border-[#e2e8f0] p-6 space-y-4">
 
-          <GlassCard
-            key={notif.id}
-            className={`p-5 flex items-start gap-4 cursor-pointer transition-all duration-200
-            hover:shadow-md hover:scale-[1.01]
-            ${notif.unread ? "border-l-4 border-blue-500 bg-blue-50/30" : "bg-white"}
-            `}
+        {loading && (
+          <p className="text-sm text-[#64748b]">
+            Loading notifications...
+          </p>
+        )}
+
+        {!loading && notifications.length === 0 && (
+          <p className="text-sm text-[#64748b]">
+            No notifications yet
+          </p>
+        )}
+
+        {notifications.map((n,i)=>(
+
+          <div
+            key={i}
+            className="flex items-center justify-between border-b border-[#f1f5f9] pb-4 last:border-0"
           >
 
-            {/* Icon */}
-            <div className="mt-1">
-              {getIcon(notif.type)}
-            </div>
-
-            {/* Content */}
-            <div className="flex-1">
-
-              <div className="flex justify-between items-center">
-                <h3 className={`font-semibold text-lg ${notif.unread ? "text-[#1e293b]" : "text-gray-600"}`}>
-                  {notif.title}
-                </h3>
-
-                <div className="flex items-center gap-1 text-xs text-gray-400">
-                  <Clock size={14}/>
-                  {notif.time}
-                </div>
-              </div>
-
-              <p className="text-gray-500 mt-1">
-                {notif.message}
+            <div>
+              <p className="text-sm font-medium text-[#1e293b]">
+                {n.text}
               </p>
 
+              <p className="text-xs text-[#94a3b8] mt-1">
+                {new Date(n.time).toLocaleString()}
+              </p>
             </div>
 
-            {/* Unread indicator */}
-            {notif.unread && (
-              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-            )}
-
-          </GlassCard>
+          </div>
 
         ))}
 
-      </div>
+      </GlassCard>
 
     </AppLayout>
-  );
+
+  )
+
 }

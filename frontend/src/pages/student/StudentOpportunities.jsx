@@ -3,6 +3,7 @@ import AppLayout from "../../components/AppLayout";
 import GlassCard from "../../components/GlassCard";
 import StatusBadge from "../../components/StatusBadge";
 import axios from "axios";
+import api from "../../api/config";
 import { 
   Search, Briefcase, Calendar, Loader2, Send, 
   Clock, CheckCircle2, XCircle, User, Mail, Trash2 
@@ -12,51 +13,9 @@ import { Link } from "react-router-dom";
 
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
-const BASE_URL = "http://localhost:8000/api/student-opportunities";
-const StudentNav = () => (
-  <div className="flex gap-6 font-sans text-sm font-medium">
-    <Link
-      to="/student/dashboard"
-      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
-    >
-      Dashboard
-    </Link>
-    
-    <Link
-      to="/student/calendar"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Calendar
-    </Link>
-    <Link to="/student/courses" className="text-[#64748b] hover:text-[#1e293b]">
-      Courses
-    </Link>
-    <Link
-      to="/student/attendance"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Attendance
-    </Link>
-    <Link
-      to="/student/notifications"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Notifications
-    </Link>
-    <Link
-      to="/student/grievances"
-      className="text-[#1e293b] hover:text-[#38b2ac] transition-colors"
-    >
-      Grievances
-    </Link>
-    <Link
-      to="/student/opportunities"
-      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
-    >
-      Opportunities
-    </Link>
-  </div>
-);
+
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/student-opportunities`;
+
 const StudentOpportunities = () => {
   const [userId, setUserId] = useState(null);
   const [activeTab, setActiveTab] = useState("browse");
@@ -84,6 +43,8 @@ const StudentOpportunities = () => {
     if (!userId) return;
     setLoading(true);
     try {
+      // const oppRes = await axios.get(`${BASE_URL}/`);
+      // const appRes = await axios.get(`${BASE_URL}/my-applications/${userId}`);
       const oppRes = await axios.get(`${BASE_URL}/`);
       const appRes = await axios.get(`${BASE_URL}/my-applications/${userId}`);
       setOpportunities(oppRes.data || []);
