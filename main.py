@@ -9,7 +9,7 @@
 # # # CREATE FASTAPI APP
 # # # -------------------------
 # # app = FastAPI(
-# #     title="AEGIS Backend",
+# #     title="PULSE Backend",
 # #     version="1.0.0"
 # # )
 
@@ -41,7 +41,7 @@
 # # # -------------------------
 # # @app.get("/")
 # # def root():
-# #     return {"message": "AEGIS backend running successfully"}
+# #     return {"message": "PULSE backend running successfully"}
 
 # # # from fastapi import FastAPI
 
@@ -57,7 +57,7 @@
 # from app.routes.auth import router as auth_router
 
 # app = FastAPI(
-#     title="AEGIS API",
+#     title="PULSE API",
 #     description="IIT Mandi Campus Management Platform API",
 #     version="1.0.0"
 # )
@@ -77,7 +77,7 @@
 # @app.get("/")
 # def root():
 #     return {
-#         "message": "AEGIS API is running",
+#         "message": "PULSE API is running",
 #         "version": "1.0.0",
 #         "docs": "/docs"
 #     }
@@ -109,7 +109,7 @@ from app.routes.authority import router as authority_router
 
 
 app = FastAPI(
-    title="AEGIS API",
+    title="PULSE API",
     description="IIT Mandi Campus Management Platform API",
     version="1.0.0"
 )
@@ -158,7 +158,7 @@ app.include_router(student_attendance.router, prefix="/api/attendance", tags=["A
 @app.get("/")
 def root():
     return {
-        "message": "AEGIS API is running",
+        "message": "PULSE API is running",
         "version": "1.0.0",
         "docs": "/docs"
     }

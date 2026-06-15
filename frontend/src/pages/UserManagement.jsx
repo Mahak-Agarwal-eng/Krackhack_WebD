@@ -81,7 +81,7 @@ background:"#111827",
 color:"white",
 padding:25
 }}>
-<h2 style={{marginBottom:30}}>AEGIS Admin</h2>
+<h2 style={{marginBottom:30}}>PULSE Admin</h2>
 
 <div style={{marginBottom:12,opacity:.7}}>Dashboard</div>
 

@@ -53,7 +53,7 @@ const AppLayoutSidebar = ({
 
           <h1 className="font-serif text-xl font-bold text-[#1e293b]">
 
-            AEGIS
+            PULSE
 
           </h1>
 
