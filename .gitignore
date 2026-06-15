@@ -1,0 +1,56 @@
+# -------------------
+# ENV FILES (VERY IMPORTANT)
+# -------------------
+.env
+.env.*
+frontend/.env
+frontend/.env.*
+
+# -------------------
+# PYTHON
+# -------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+
+# -------------------
+# FASTAPI / BACKEND
+# -------------------
+*.sqlite3
+*.log
+
+# -------------------
+# NODE / REACT
+# -------------------
+frontend/node_modules/
+node_modules/
+
+frontend/dist/
+dist/
+build/
+
+# -------------------
+# OS FILES
+# -------------------
+.DS_Store
+Thumbs.db
+
+# -------------------
+# VSCODE / IDE
+# -------------------
+.vscode/
+.idea/
+
+# -------------------
+# TEMP FILES
+# -------------------
+*.tmp
+*.swp
+
+service-account.json
+*.json
