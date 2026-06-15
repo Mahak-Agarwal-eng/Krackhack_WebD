@@ -274,22 +274,4 @@ Authentication
 - JWT based authentication
 - Role-based authorization
 
-## 🔐 Demo Login Credentials
 
-## 👤 Student
-Email: b24136@students.iitmandi.ac.in 
-Password: mahak  
-
-## 👨‍🏫 Faculty
-Email: faculty@iitmandi.ac.in  
-Password: abcd  
-
-## 🛡️ Admin
-Email: admin@iitmandi.ac.in   
-Password: abcd  
-
-## 🛡️ Authority
-Email: authority@iitmandi.ac.in   
-Password: abcd  
-
-> These are sample credentials for evaluation only.

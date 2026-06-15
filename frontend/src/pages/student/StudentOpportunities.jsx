@@ -9,8 +9,6 @@ import {
   Clock, CheckCircle2, XCircle, User, Mail, Trash2 
 } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
-import { Link } from "react-router-dom";
-
 
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
 
@@ -85,7 +83,7 @@ const StudentOpportunities = () => {
   );
 
   return (
-    <AppLayout  navigation={<StudentNav />}>
+    <AppLayout>
       <div className="mb-10">
         <h1 className="text-4xl font-serif text-[#1e293b]">Citadel Opportunities</h1>
         <p className="text-[#64748b]">Manage your career path and applications.</p>

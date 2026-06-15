@@ -115,12 +115,12 @@ const FacultyNav = () => (
 const stats = [
   {
     label: "Active Courses",
-    value: "3",
+    value: "4",
     icon: BookOpen,
   },
   {
     label: "Total Students",
-    value: "8",
+    value: "186",
     icon: Users,
   },
   {
@@ -130,7 +130,7 @@ const stats = [
   },
   {
     label: "Announcements",
-    value: "3",
+    value: "12",
     icon: Megaphone,
   },
 ];

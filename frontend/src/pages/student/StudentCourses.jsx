@@ -7,50 +7,7 @@ import { BookOpen, FileText, Download, Award, Calendar, Loader2 } from "lucide-r
 import { createClient } from "@supabase/supabase-js";
 import api from "../../api/config";
 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON_KEY);
-const StudentNav = () => (
-  <div className="flex gap-6 font-sans text-sm font-medium">
-    <Link
-      to="/student/dashboard"
-      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
-    >
-      Dashboard
-    </Link>
-   
-    <Link
-      to="/student/calendar"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Calendar
-    </Link>
-    <Link to="/student/courses" className="text-[#64748b] hover:text-[#1e293b]">
-      Courses
-    </Link>
-    <Link
-      to="/student/attendance"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Attendance
-    </Link>
-    <Link
-      to="/student/notifications"
-      className="text-[#64748b] hover:text-[#1e293b]"
-    >
-      Notifications
-    </Link>
-    <Link
-      to="/student/grievances"
-      className="text-[#1e293b] hover:text-[#38b2ac] transition-colors"
-    >
-      Grievances
-    </Link>
-    <Link
-      to="/student/opportunities"
-      className="text-[#64748b] hover:text-[#1e293b] transition-colors"
-    >
-      Opportunities
-    </Link>
-  </div>
-);
+
 const StudentCourses = () => {
   const [userId, setUserId] = useState(null);
   // ✅ FIX: Use consistent names for state and setter
@@ -88,7 +45,7 @@ const StudentCourses = () => {
   }, [userId]);
 
   return (
-    <AppLayout navigation={<StudentNav />}>
+    <AppLayout>
       <div className="mb-10">
         <h1 className="text-4xl font-serif text-[#1e293b]">Academic Mastery</h1>
         <p className="text-[#64748b]">Access your courses, attendance, and the resource vault.</p>
@@ -127,7 +84,7 @@ const StudentCourses = () => {
                   <p className="text-2xl font-serif text-[#1e293b]">
                     {selectedCourse.attendance.total > 0 
                       ? Math.round((selectedCourse.attendance.attended / selectedCourse.attendance.total) * 100) 
-                      : 64}%
+                      : 0}%
                   </p>
                   <p className="text-xs text-[#64748b]">{selectedCourse.attendance.attended}/{selectedCourse.attendance.total} Lectures</p>
                 </div>

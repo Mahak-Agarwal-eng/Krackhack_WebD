@@ -49,8 +49,7 @@ const fetchAttendance = async () => {
   }
 
   return (
-    
-    <AppLayout navigation={<StudentNav />}>
+    <AppLayout>
       <div className="mb-10">
         <h1 className="text-4xl font-serif text-[#1e293b]">Attendance Ledger</h1>
         <p className="text-[#64748b] mt-1">Detailed audit of your presence in the Citadel's lectures.</p>
